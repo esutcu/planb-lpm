@@ -1,0 +1,59 @@
+# Build artifacts
+build/
+build-*/
+_skbuild/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.pyd
+compile_commands.json
+CMakeUserPresets.json
+
+# Python
+__pycache__/
+*.egg-info/
+dist/
+wheelhouse/
+*.whl
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Internal / not for commit
+plan.md
+planb_paper.md
+oku.md
+
+# Binaries (root-level, when run in-tree)
+planb-lpm
+test_correctness
+bench_*
+!bench_*.cpp
+!bench_*.hpp
+!bench_*.sh
+
+# Output files
+*.csv
+*.bin
+
+# Generated datasets (large, regenerable via scripts)
+examples/bview.gz
+examples/fib_bgp.txt
+examples/fib_*.txt
+examples/trace_1m.txt
+examples/sample_fib.txt
+examples/sample_trace.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

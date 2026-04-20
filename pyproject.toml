@@ -1,0 +1,29 @@
+[build-system]
+requires      = ["scikit-build-core>=0.8", "pybind11>=2.10"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name            = "planb-lpm"
+version         = "0.1.0"
+description     = "High-performance IPv6 longest-prefix-match via linearized B+-tree"
+readme          = "README.md"
+requires-python = ">=3.8"
+license         = { file = "LICENSE.md" }
+authors         = [{ name = "Erol Sutcu", email = "erolsutcuca@gmail.com" }]
+keywords        = ["ipv6", "lpm", "route-lookup", "avx-512", "networking"]
+classifiers     = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+    "Topic :: System :: Networking",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Homepage = "https://github.com/esutcu/planb-lpm"
+Paper    = "https://arxiv.org/abs/2604.14650"
+Upstream = "https://github.com/nicexlab/planb"
+
+[tool.scikit-build]
+cmake.args       = ["-DLPM6_BUILD_PYTHON=ON"]
+wheel.py-api     = "cp38"
+build-dir        = "build/{wheel_tag}"

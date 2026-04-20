@@ -1,0 +1,59 @@
+# Contributing to planb-lpm
+
+Thanks for your interest — contributions of any size are welcome. This is a
+small focused library, so the bar is clarity and correctness, not ceremony.
+
+## Ways to help
+
+- **Bug reports** — a minimal FIB + lookup sequence that reproduces the issue
+  is worth more than a long description.
+- **Performance data** — benchmark numbers on different CPUs, especially
+  server-class AVX-512 hardware or ARM/NEON, are very useful.
+- **Algorithm extensions** — SIMD paths for other ISAs, better batch sizes,
+  alternative dynamic-update strategies.
+- **Language bindings** — the Python binding is the template; a Rust or Go
+  FFI layer would be welcome.
+- **Documentation** — examples, clarifications, typo fixes.
+
+## Dev environment
+
+```bash
+sudo apt install -y g++ cmake ninja-build python3-dev python3-pybind11
+cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLPM6_BUILD_PYTHON=ON
+cmake --build build -j
+ctest --test-dir build --output-on-failure
+```
+
+Before sending a PR please also verify:
+
+- `-Wall -Wextra -Wpedantic -Werror` builds cleanly.
+- A Debug build with `-fsanitize=address,undefined` runs the test binary
+  with no leaks or UB.
+- The scalar fallback still works (`cmake -DLPM6_CAN_AVX512F=FALSE
+  -DLPM6_CAN_AVX512DQ=FALSE ...`).
+- If you touched the Python binding, `pip install -e .` in a fresh venv
+  followed by `python examples/basic_usage.py` still passes.
+
+## Commit style
+
+- One logical change per commit; keep the diff reviewable.
+- Subject line ≤ 72 chars, imperative mood: `add NEON popcnt path`, not
+  `Added NEON popcnt path`.
+- Explain **why** in the body when the change is non-obvious; the code
+  shows the **what**.
+
+## Coding style
+
+- C++17. No raw `new` / `delete` in public API; prefer `std::unique_ptr` /
+  `std::shared_ptr`.
+- `snake_case` for free functions and variables; `PascalCase` for types;
+  `UPPER_CASE` for constants and macros.
+- Determinism is a correctness property here, not a nice-to-have: given
+  the same inputs, output must never change.  Don't introduce global RNG,
+  thread-order-dependent code, or unseeded hashing on the hot path.
+
+## License
+
+By submitting a contribution you agree that it will be licensed under the
+repository's MIT license (see `LICENSE.md`).  If that's a problem, open
+an issue first so we can figure it out together.
