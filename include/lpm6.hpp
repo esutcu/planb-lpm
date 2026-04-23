@@ -80,7 +80,7 @@ struct Entry {
 inline std::uint32_t count_ge(const std::uint64_t* base, std::uint64_t x) {
 #if LPM6_HAS_AVX512
     __m512i vx  = _mm512_set1_epi64(static_cast<long long>(x));
-    __m512i vk  = _mm512_load_si512(reinterpret_cast<const __m512i*>(base));
+    __m512i vk  = _mm512_loadu_si512(base);
     __mmask8 m  = _mm512_cmp_epu64_mask(vx, vk, _MM_CMPINT_GE);
     return static_cast<std::uint32_t>(__builtin_popcount(m));
 #else
